@@ -1134,16 +1134,15 @@ namespace MPTranslator
                     case "10":
                         try
                         {
-
-                            Homomorphism h = new Homomorphism(new ArrayList() { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "45" },
-                                                              new ArrayList() { "ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "плюс", "минус", "сорок пять" });
+                            myHTable h_table = new myHTable(new ArrayList() { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "45" },
+                                                            new ArrayList() { "ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "плюс", "минус", "сорок пять" });
 
                             Console.WriteLine("\nDebug Homomorphism:");
-                            h.debugHomomorphism();
+                            h_table.debugHTable();
 
                             Console.WriteLine("\nEnter the line :");
                             ArrayList r = new ArrayList(Console.ReadLine().Split(' '));
-                            Console.WriteLine(h.Parse(r));
+                            Console.WriteLine(h_table.h(r));
                         }
                         catch (Exception e)
                         {
@@ -1154,60 +1153,7 @@ namespace MPTranslator
                     case "11":
                         try
                         {
-
-                            /* первый пример
-                            mySDTranslator sdt = new mySDTranslator(new ArrayList() { "E", "T", "P" },
-                                                                    new ArrayList() { "i", "+", "*", "(", ")" },
-                                                                    new ArrayList() { "i", "+", "*" },
-                                                                    "E");
-
-                            sdt.addRule("E", new ArrayList() {"E", "+", "T"}, new ArrayList() {"E", "T", "+"});
-                            sdt.addRule("E", new ArrayList() {"T"}, new ArrayList() {"T"});
-                            sdt.addRule("T", new ArrayList() { "T", "*", "P" }, new ArrayList() { "T", "P", "*" });
-                            sdt.addRule("T", new ArrayList() { "P" }, new ArrayList() { "P" });
-                            sdt.addRule("P", new ArrayList() { "(", "E", ")" }, new ArrayList() { "E" });
-                            sdt.addRule("P", new ArrayList() { "i" }, new ArrayList() { "i" });
-
-                            Console.Write("\nDebug SDTranslator:");
-                            sdt.debugSDT();
-
-                            sdt.ParseWithRulesNumbers(new ArrayList() { 2, 3, 4, 6, 5, 1, 2, 4, 6, 4, 6 });
-                            sdt.ParseWithString(new ArrayList() { "i", "*", "(", "(", "i", "*", "i", ")",  "+", "i", ")" });
-
-                            Tree tr = sdt.CreateTree(new ArrayList() { "i", "*", "(", "(", "i", "*", "i", ")", "+", "i", ")" });
-                            tr.Print();
-                            tr.PrintCrown();
-                            tr.Transform();
-                            tr.Print();
-                            tr.PrintCrown();
-                            //*/
-
-                            /* второй пример
-                            mySDTranslator sdt = new mySDTranslator(new ArrayList() { "S", "A" },
-                                                                    new ArrayList() { "i", "a", "b", "c", "d" },
-                                                                    new ArrayList() { "i", "e", "c", "d", "f", "g" },
-                                                                    "S");
-
-                            sdt.addRule("S", new ArrayList() { "a", "S_1", "b", "A", "c", "S_2", "d", "S_3" }, new ArrayList() { "e", "A", "c", "S_2", "d", "S_3", "f", "S_1", "g" });
-                            sdt.addRule("S", new ArrayList() { "i" }, new ArrayList() { "i" });
-                            sdt.addRule("A", new ArrayList() { "i" }, new ArrayList() { "i" });
-
-                            Console.Write("\nDebug SDTranslator:");
-                            sdt.debugSDT();
-
-                            //sdt.ParseWithString(new ArrayList() { "a", "i", "b", "i", "c", "i", "d", "i" });
-                            sdt.ParseWithString(new ArrayList() { "a", "a", "i", "b", "i", "c", "i", "d", "i", "b", "i", "c", "i", "d", "i" });
-
-                            Tree tr = sdt.CreateTree(new ArrayList() { "a", "a", "i", "b", "i", "c", "i", "d", "i", "b", "i", "c", "i", "d", "i" });
-                            tr.Print();
-                            tr.PrintCrown();
-                            tr.Transform();
-                            tr.Print();
-                            tr.PrintCrown();
-                            //*/
-
-                            //* третий пример
-                            mySDTranslator sdt = new mySDTranslator(new ArrayList() { "S", "A" },
+                            mySDTSchemata sdt = new mySDTSchemata(new ArrayList() { "S", "A" },
                                                                     new ArrayList() { "0", "1" },
                                                                     new ArrayList() { "a", "b" },
                                                                     "S");
@@ -1218,47 +1164,17 @@ namespace MPTranslator
                             sdt.addRule("A", new ArrayList() { "1" }, new ArrayList() { "b" });
 
                             Console.Write("\nDebug SDTranslator:");
-                            sdt.debugSDT();
+                            sdt.debugSDTS();
 
-                            sdt.ParseWithRulesNumbers(new ArrayList() { 1, 2, 3, 2, 3, 4, 3 });
-                            sdt.ParseWithString(new ArrayList() { "0", "0", "1", "0", "1", "0", "1", "1", "1"  });
+                            sdt.TranslateByRules(new ArrayList() { 1, 2, 3, 2, 3, 4, 3 });
+                            sdt.Translate(new ArrayList() { "0", "0", "1", "0", "1", "1", "1"  });
 
-                            Tree tr = sdt.CreateTree(new ArrayList() { "0", "0", "1", "0", "1", "0", "1", "1", "1" });
+                            Tree tr = sdt.CreateParseTree(new ArrayList() { "0", "0", "1", "0", "1", "1", "1" });
                             tr.Print();
                             tr.PrintCrown();
                             tr.Transform();
                             tr.Print();
                             tr.PrintCrown();
-                            //*/
-
-                            /* четвертый пример
-                            mySDTranslator sdt = new mySDTranslator(new ArrayList() { "E", "T", "A" },
-                                                                    new ArrayList() { "+", "*", "(", ")", "i" },
-                                                                    new ArrayList() { "+", "*", "(", ")", "i" },
-                                                                    "E");
-
-                            sdt.addRule("E", new ArrayList() { "(", "E", ")" }, new ArrayList() { "E" });
-                            sdt.addRule("E", new ArrayList() { "E", "+", "E" }, new ArrayList() { "E", "+", "E" });
-                            sdt.addRule("E", new ArrayList() { "T" }, new ArrayList() { "T" });
-                            sdt.addRule("T", new ArrayList() { "(", "T", ")" }, new ArrayList() { "T" });
-                            sdt.addRule("T", new ArrayList() { "A", "*", "A" }, new ArrayList() { "A", "*", "A" });
-                            sdt.addRule("T", new ArrayList() { "i" }, new ArrayList() { "i" });
-                            sdt.addRule("A", new ArrayList() { "(", "E", "+", "E", ")" }, new ArrayList() { "(", "E", "+", "E", ")" });
-                            sdt.addRule("A", new ArrayList() { "T" }, new ArrayList() { "T" });
-
-                            Console.Write("\nDebug SDTranslator:");
-                            sdt.debugSDT();
-
-                            sdt.ParseWithRulesNumbers(new ArrayList() { 3, 4, 5, 7, 3, 5, 8, 6, 8, 4,5, 8, 6, 8, 6, 3, 6, 8, 6 });
-                            sdt.ParseWithString(new ArrayList() { "(", "i", "*", "i", ")", "*", "i" });
-
-                            Tree tr = sdt.CreateTree(new ArrayList() { "(", "(", "(", "(", "(", "(", "i", "*", "i", ")", "*", "i", ")", ")", ")", ")", ")" });
-                            tr.Print();
-                            tr.PrintCrown();
-                            tr.Transform();
-                            tr.Print();
-                            tr.PrintCrown();
-                            //*/
 
                         }
                         catch (Exception e)
